@@ -96,7 +96,8 @@ sap.ui.define([
 			//	var texture;
 			//	var velocity = 0;
 			//	var rudder = 0;
-
+				var G1L1, G1L2, G1R1, G1R2;
+					var H1L1, H1L2, H1R1, H1R2;
 			function getVelocityVectors(velocity, angle) {
 				var vx = velocity * Math.cos(angle);
 				var vy = velocity * Math.sin(angle);
@@ -166,6 +167,15 @@ sap.ui.define([
 
 				//sailboat.addChild(heck);
 				//sailboat.addChild(bug);
+				
+				G1L1 =  g.circle(
+  10, 
+  "red", 
+  "red", 
+  2,
+  300, 
+  200 
+);
 				function initBoom() {
 					boom.setPosition(40, 20);
 					boom.vx = 0;

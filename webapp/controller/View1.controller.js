@@ -92,7 +92,7 @@ sap.ui.define([
 			var redBuoy;
 			var greenBuoy;
 			var signalBuoy;
-			var showTestPointsOnShip = true;
+			var showTestPointsOnShip;
 			//	var messageX;
 			//	var boom;
 			//	var rudder;
@@ -102,7 +102,15 @@ sap.ui.define([
 			var G1L1, G1L2, G1R1, G1R2;
 			var H1L1, H1L2, H1R1, H1R2;
 
-			function initCollision() {
+			function initMainCollision() {
+				if (initCollision(greenBuoy) === true || initCollision(redBuoy) === true) {
+					return true;
+				} else {
+					return false;
+				}
+			}
+
+			function initCollision(object) {
 				// Red
 				var s = 0.5 * sailboat.width / Math.cos(sailboat.rotation);
 				G1L1.position.x = sailboat.position.x + s;
@@ -136,8 +144,8 @@ sap.ui.define([
 				H1R2.position.y = sailboat.position.y + b;
 
 				// Längenvergleich: Red / orange: zu Green-Buoy:
-				var area1 = areaLine(greenBuoy.position.x, greenBuoy.position.y, G1L1.position.x, G1L1.position.y, G1L2.position.x, G1L2.position.y);
-				var area2 = areaLine(greenBuoy.position.x, greenBuoy.position.y, H1L1.position.x, H1L1.position.y, H1L2.position.x, H1L2.position.y);
+				var area1 = areaLine(object.position.x, object.position.y, G1L1.position.x, G1L1.position.y, G1L2.position.x, G1L2.position.y);
+				var area2 = areaLine(object.position.x, object.position.y, H1L1.position.x, H1L1.position.y, H1L2.position.x, H1L2.position.y);
 				var areaOne = false
 					//	messageX.content = "Init";
 				if (area1 > 0 && area2 < 0 || area1 < 0 && area2 > 0) {
@@ -156,9 +164,9 @@ sap.ui.define([
 				if (areaOne === true) {
 
 					// Längenvergleich: Blue / White: ->Gerade 1: blue/yellow (G1R2) zu white/green(H1R1)  Gerade 2: blue/green(G1R1)  zu white/yellow(H1R2) 
-					var area3 = areaLine(greenBuoy.position.x, greenBuoy.position.y, G1R2.position.x, G1R2.position.y, H1R1.position.x, H1R1.position
+					var area3 = areaLine(object.position.x, object.position.y, G1R2.position.x, G1R2.position.y, H1R1.position.x, H1R1.position
 						.y);
-					var area4 = areaLine(greenBuoy.position.x, greenBuoy.position.y, G1R1.position.x, G1R1.position.y, H1R2.position.x, H1R2.position
+					var area4 = areaLine(object.position.x, object.position.y, G1R1.position.x, G1R1.position.y, H1R2.position.x, H1R2.position
 						.y);
 					if (area3 > 0 && area4 < 0 || area3 < 0 && area4 > 0) {
 						areaTwo = true;
@@ -211,7 +219,7 @@ sap.ui.define([
 						var bug = g.rectangle(10, 12, "red");
 						bug.anchor.set(0.5);
 						sailboat = g.group();*/
-
+				showTestPointsOnShip = true;
 				// create our little bunny friend..
 				//	texture = PIXI.Texture.fromImage('images/boat1.jpg');
 				//		texture.baseTexture.scaleMode = PIXI.SCALE_MODES.NEAREST;
@@ -357,15 +365,6 @@ sap.ui.define([
 				H1R2.anchor.y = 0.5;
 
 				if (showTestPointsOnShip === true) {
-					G1L1.alpha = 0;
-					G1L2.alpha = 0;
-					G1R1.alpha = 0;
-					G1R2.alpha = 0;
-					H1L1.alpha = 0;
-					H1L2.alpha = 0;
-					H1R1.alpha = 0;
-					H1R2.alpha = 0;
-				} else {
 					G1L1.alpha = 1;
 					G1L2.alpha = 1;
 					G1R1.alpha = 1;
@@ -374,6 +373,15 @@ sap.ui.define([
 					H1L2.alpha = 1;
 					H1R1.alpha = 1;
 					H1R2.alpha = 1;
+				} else {
+					G1L1.alpha = 0;
+					G1L2.alpha = 0;
+					G1R1.alpha = 0;
+					G1R2.alpha = 0;
+					H1L1.alpha = 0;
+					H1L2.alpha = 0;
+					H1R1.alpha = 0;
+					H1R2.alpha = 0;
 				}
 
 				function initBoom() {
@@ -740,7 +748,7 @@ sap.ui.define([
 				var boatHit = false;
 
 				if (drag === true) return;
-				initCollision();
+				//initMainCollision();
 				//greenBuoy.circular = true;
 				//redBuoy.circular = true;
 				//bump:add(<object>, <whatever>, <whatever>, <image>:getWidth(), <image>:getHeight())
@@ -748,13 +756,13 @@ sap.ui.define([
 				boatHit = g.hitTestCircleRectangle(greenBuoy, sailboat);
 				//	boatHit = g.circleRectangleCollision(greenBuoy,sailboat);
 
-				if (initCollision() === true) { // mit eigener Routine
+				if (initMainCollision() === true) { // mit eigener Routine
 
 					//	if (boatHit !== undefined && boatHit !== false) {
 					//console.log(g.hit(sailboat,[greenBuoy,redBuoy]));
 					//boatHitsGreen = true;
 					sailboat.alpha = 0.5;
-					console.log(boatHit);
+					//console.log(boatHit);
 				} else {
 					sailboat.alpha = 1;
 				}

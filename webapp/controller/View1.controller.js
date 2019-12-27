@@ -92,6 +92,8 @@ sap.ui.define([
 			var redBuoy;
 			var greenBuoy;
 			var signalBuoy;
+			var showTestPointsOnShip = true;
+			//	var messageX;
 			//	var boom;
 			//	var rudder;
 			//	var texture;
@@ -115,41 +117,72 @@ sap.ui.define([
 				H1L2.position.x = sailboat.position.x;
 				H1L2.position.y = sailboat.position.y + t;
 
-				// Blue
-				var a = 0.5 * sailboat.height / Math.cos(sailboat.rotation);
+				// Blue / Green
+				//	var a = 0.5 * sailboat.height / Math.cos(sailboat.rotation);
+				var a = 0.5 * sailboat.height / Math.cos(0.5 * Math.PI - (sailboat.rotation * -1));
 				G1R1.position.x = sailboat.position.x + a;
 				G1R1.position.y = sailboat.position.y;
-				var b = 0.5 * sailboat.height / Math.cos(0.5 * Math.PI - (sailboat.rotation * -1));
+				// Blue / Yellow
+				//	var b = 0.5 * sailboat.height / Math.cos(0.5 * Math.PI - (sailboat.rotation * -1));
+				var b = 0.5 * sailboat.height / Math.cos(sailboat.rotation * -1);
 				G1R2.position.x = sailboat.position.x;
 				G1R2.position.y = sailboat.position.y - b;
 
-				// White --> Gegengerade 
+				// White --> Gegengerade   white/green
 				H1R1.position.x = sailboat.position.x - a;
 				H1R1.position.y = sailboat.position.y;
-
+				// white/yellow
 				H1R2.position.x = sailboat.position.x;
 				H1R2.position.y = sailboat.position.y + b;
-				
+
 				// Längenvergleich: Red / orange: zu Green-Buoy:
-				var area1 = areaLine(greenBuoy.position.x,greenBuoy.position.y, G1L1.position.x,G1L1.position.y, G1L2.position.x,G1L2.position.y );
-				var area2 = areaLine(greenBuoy.position.x,greenBuoy.position.y, H1L1.position.x,H1L1.position.y, H1L2.position.x,H1L2.position.y );
-			 if (area1 > 0 && area2 < 0 || area1 < 0 && area2 > 0){
-			 	signalBuoy.fillColor = "red";  // innerhalb
-			 	console.log("red");
-			 }else{
-			 	 signalBuoy.fillColor = "green";
-			 	 	console.log("green");
-			 }
-			
+				var area1 = areaLine(greenBuoy.position.x, greenBuoy.position.y, G1L1.position.x, G1L1.position.y, G1L2.position.x, G1L2.position.y);
+				var area2 = areaLine(greenBuoy.position.x, greenBuoy.position.y, H1L1.position.x, H1L1.position.y, H1L2.position.x, H1L2.position.y);
+				var areaOne = false
+					//	messageX.content = "Init";
+				if (area1 > 0 && area2 < 0 || area1 < 0 && area2 > 0) {
+
+					//	 messageX.content = "OK! (Outer)";
+					//	 
+				} else {
+					//	 	messageX.content = "Collision!";
+					areaOne = true;
+
+				}
+				if (areaOne === false) {
+					return false; // die beiden Bedingungen können nicht mehr true werden!	
+				}
+				var areaTwo = false;
+				if (areaOne === true) {
+
+					// Längenvergleich: Blue / White: ->Gerade 1: blue/yellow (G1R2) zu white/green(H1R1)  Gerade 2: blue/green(G1R1)  zu white/yellow(H1R2) 
+					var area3 = areaLine(greenBuoy.position.x, greenBuoy.position.y, G1R2.position.x, G1R2.position.y, H1R1.position.x, H1R1.position
+						.y);
+					var area4 = areaLine(greenBuoy.position.x, greenBuoy.position.y, G1R1.position.x, G1R1.position.y, H1R2.position.x, H1R2.position
+						.y);
+					if (area3 > 0 && area4 < 0 || area3 < 0 && area4 > 0) {
+						areaTwo = true;
+						//	messageX.content = "Collision!";
+						//console.log("red");
+					} else {
+
+						//	messageX.content = "OK! (Outer)";
+						//console.log("green");
+					}
+					return areaTwo;
+				}
+
 			}
 			// ist Punkt rechts/Links einer Geraden?
-            function areaLine(px,py,x1,y1,x2,y2){
-            	
-            	return (px-x1)*(y1-y2) + (py-y1)*(x2-x1);
-            	// 0 -> auf Linie
-            	// < 0 unter Linie
-            	// > 0 über Linie
-            }
+			function areaLine(px, py, x1, y1, x2, y2) {
+
+				//	return (px-x1)*(y1-y2) + (py-y1)*(x2-x1);
+				return (x2 - x1) * (py - y1) - (y2 - y1) * (px - x1);
+				// 0 -> auf Linie
+				// < 0 unter Linie
+				// > 0 über Linie
+			}
+
 			function getVelocityVectors(velocity, angle) {
 				var vx = velocity * Math.cos(angle);
 				var vy = velocity * Math.sin(angle);
@@ -187,8 +220,13 @@ sap.ui.define([
 				//	var bug = g.rectangle(10, 12, "red");
 
 				//	sailboat = g.sprite("images/boot3_100.png"); //g.sprite("images/boat1.jpg");
+				if (showTestPointsOnShip === true) {
+					sailboat = g.rectangle(100, 37, "grey");
+				} else {
+					sailboat = g.sprite("images/boot3_100.png");
+				}
 				//	sailboat = g.sprite("images/boot3_100.png");
-				sailboat = g.rectangle(100, 37, "grey");
+				//sailboat = g.rectangle(100, 37, "grey");
 				// sailboat.width = 100;
 				// sailboat.height = 37;
 				redBuoy = g.circle(
@@ -198,7 +236,8 @@ sap.ui.define([
 					2,
 					350,
 					250);
-
+				redBuoy.anchor.x = 0.5;
+				redBuoy.anchor.y = 0.5;
 				greenBuoy = g.circle(
 					20,
 					"0x00ff37", // green
@@ -206,6 +245,8 @@ sap.ui.define([
 					2,
 					150,
 					100);
+				greenBuoy.anchor.x = 0.5;
+				greenBuoy.anchor.y = 0.5;
 				/*let ball = g.circle(
 				  diameterInPixels, 
 				  "fillColor", 
@@ -219,14 +260,17 @@ sap.ui.define([
 
 				//sailboat.addChild(heck);
 				//sailboat.addChild(bug);
-	signalBuoy = g.circle(
-					30,
-					"green",
-					"green",
-					0,
-					50,
-					250
-				);
+				/*	signalBuoy = g.circle(
+						30,
+						"green",
+						"green",
+						0,
+						50,
+						250
+					);*/
+				/*	messageX = g.text("init");
+					messageX.position.x = 100;
+					messageX.position.y = 300;*/
 				G1L1 = g.circle(
 					10,
 					"red",
@@ -311,6 +355,26 @@ sap.ui.define([
 				);
 				H1R2.anchor.x = 0.5;
 				H1R2.anchor.y = 0.5;
+
+				if (showTestPointsOnShip === true) {
+					G1L1.alpha = 0;
+					G1L2.alpha = 0;
+					G1R1.alpha = 0;
+					G1R2.alpha = 0;
+					H1L1.alpha = 0;
+					H1L2.alpha = 0;
+					H1R1.alpha = 0;
+					H1R2.alpha = 0;
+				} else {
+					G1L1.alpha = 1;
+					G1L2.alpha = 1;
+					G1R1.alpha = 1;
+					G1R2.alpha = 1;
+					H1L1.alpha = 1;
+					H1L2.alpha = 1;
+					H1R1.alpha = 1;
+					H1R2.alpha = 1;
+				}
 
 				function initBoom() {
 					boom.setPosition(40, 20);
@@ -683,7 +747,10 @@ sap.ui.define([
 				//boatHit = g.hitTestCircleRectangle(greenBuoy,sailboat);   // /rectangleCollision
 				boatHit = g.hitTestCircleRectangle(greenBuoy, sailboat);
 				//	boatHit = g.circleRectangleCollision(greenBuoy,sailboat);
-				if (boatHit !== undefined && boatHit !== false) {
+
+				if (initCollision() === true) { // mit eigener Routine
+
+					//	if (boatHit !== undefined && boatHit !== false) {
 					//console.log(g.hit(sailboat,[greenBuoy,redBuoy]));
 					//boatHitsGreen = true;
 					sailboat.alpha = 0.5;

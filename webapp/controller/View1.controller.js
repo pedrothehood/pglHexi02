@@ -96,8 +96,40 @@ sap.ui.define([
 			//	var texture;
 			//	var velocity = 0;
 			//	var rudder = 0;
-				var G1L1, G1L2, G1R1, G1R2;
-					var H1L1, H1L2, H1R1, H1R2;
+			var G1L1, G1L2, G1R1, G1R2;
+			var H1L1, H1L2, H1R1, H1R2;
+
+			function initCollision() {
+				// Red
+				var s = 0.5 * sailboat.width / Math.cos(sailboat.rotation);
+				G1L1.position.x = sailboat.position.x + s;
+				G1L1.position.y = sailboat.position.y;
+				var t = 0.5 * sailboat.width / Math.cos(0.5 * Math.PI - (sailboat.rotation * -1));
+				G1L2.position.x = sailboat.position.x;
+				G1L2.position.y = sailboat.position.y - t;
+
+				// Orange --> Gegengerade 
+				H1L1.position.x = sailboat.position.x - s;
+				H1L1.position.y = sailboat.position.y;
+				H1L2.position.x = sailboat.position.x;
+				H1L2.position.y = sailboat.position.y + t;
+
+				// Blue
+				var a = 0.5 * sailboat.height / Math.cos(sailboat.rotation);
+				G1R1.position.x = sailboat.position.x + a;
+				G1R1.position.y = sailboat.position.y;
+				var b = 0.5 * sailboat.height / Math.cos(0.5 * Math.PI - (sailboat.rotation * -1));
+				G1R2.position.x = sailboat.position.x;
+				G1R2.position.y = sailboat.position.y - b;
+
+				// White --> Gegengerade 
+				H1R1.position.x = sailboat.position.x - a;
+				H1R1.position.y = sailboat.position.y;
+
+				H1R2.position.x = sailboat.position.x;
+				H1R2.position.y = sailboat.position.y + b;
+			}
+
 			function getVelocityVectors(velocity, angle) {
 				var vx = velocity * Math.cos(angle);
 				var vy = velocity * Math.sin(angle);
@@ -134,48 +166,125 @@ sap.ui.define([
 				//	sailboat = new PIXI.Sprite(texture);
 				//	var bug = g.rectangle(10, 12, "red");
 
-			//	sailboat = g.sprite("images/boot3_100.png"); //g.sprite("images/boat1.jpg");
+				//	sailboat = g.sprite("images/boot3_100.png"); //g.sprite("images/boat1.jpg");
 				//	sailboat = g.sprite("images/boot3_100.png");
-						sailboat = g.rectangle(100,50,"grey");
-               // sailboat.width = 100;
-               // sailboat.height = 37;
+				sailboat = g.rectangle(100, 37, "grey");
+				// sailboat.width = 100;
+				// sailboat.height = 37;
 				redBuoy = g.circle(
 					20,
-					"0xfc0505",  // rot
-					"0xffe500",  // gelb
+					"0xfc0505", // rot
+					"0xffe500", // gelb
 					2,
 					350,
 					250);
 
-	greenBuoy = g.circle(
+				greenBuoy = g.circle(
 					20,
-					"0x00ff37",  // green
-					"0xffe500",  // gelb
+					"0x00ff37", // green
+					"0xffe500", // gelb
 					2,
 					150,
 					100);
-/*let ball = g.circle(
-  diameterInPixels, 
-  "fillColor", 
-  "strokeColor", 
-  lineWidth,
-  xPosition, 
-  yPosition 
-);*/
+				/*let ball = g.circle(
+				  diameterInPixels, 
+				  "fillColor", 
+				  "strokeColor", 
+				  lineWidth,
+				  xPosition, 
+				  yPosition 
+				);*/
 				// boom = g.rectangle(10, 90, "red");
 				// rudder = g.rectangle(5, 20, "blue");
 
 				//sailboat.addChild(heck);
 				//sailboat.addChild(bug);
-				
-				G1L1 =  g.circle(
-  10, 
-  "red", 
-  "red", 
-  2,
-  300, 
-  200 
-);
+
+				G1L1 = g.circle(
+					10,
+					"red",
+					"green",
+					2,
+					300,
+					200
+				);
+				G1L1.anchor.x = 0.5;
+				G1L1.anchor.y = 0.5;
+				G1L2 = g.circle(
+					10,
+					"red",
+					"yellow",
+					2,
+					300,
+					220
+				);
+				G1L2.anchor.x = 0.5;
+				G1L2.anchor.y = 0.5;
+
+				G1R1 = g.circle(
+					10,
+					"blue",
+					"green",
+					2,
+					320,
+					200
+				);
+				G1R1.anchor.x = 0.5;
+				G1R1.anchor.y = 0.5;
+				G1R2 = g.circle(
+					10,
+					"blue",
+					"yellow",
+					2,
+					320,
+					220
+				);
+				G1R2.anchor.x = 0.5;
+				G1R2.anchor.y = 0.5;
+
+				// H:
+				H1L1 = g.circle(
+					10,
+					"orange",
+					"green",
+					2,
+					340,
+					200
+				);
+				H1L1.anchor.x = 0.5;
+				H1L1.anchor.y = 0.5;
+				H1L2 = g.circle(
+					10,
+					"orange",
+					"yellow",
+					2,
+					340,
+					220
+				);
+				H1L2.anchor.x = 0.5;
+				H1L2.anchor.y = 0.5;
+
+				H1R1 = g.circle(
+					10,
+					"white",
+					"green",
+					2,
+					360,
+					200
+				);
+				H1R1.anchor.x = 0.5;
+				H1R1.anchor.y = 0.5;
+				H1R2 = g.circle(
+					10,
+					"white",
+					"yellow",
+					2,
+					360,
+					220
+				);
+				H1R2.anchor.x = 0.5;
+				H1R2.anchor.y = 0.5;
+
 				function initBoom() {
 					boom.setPosition(40, 20);
 					boom.vx = 0;
@@ -538,38 +647,39 @@ sap.ui.define([
 
 			function play() {
 				var boatHit = false;
-				
+
 				if (drag === true) return;
+				initCollision();
 				//greenBuoy.circular = true;
 				//redBuoy.circular = true;
 				//bump:add(<object>, <whatever>, <whatever>, <image>:getWidth(), <image>:getHeight())
-			//boatHit = g.hitTestCircleRectangle(greenBuoy,sailboat);   // /rectangleCollision
-				boatHit = g.hitTestCircleRectangle(greenBuoy,sailboat); 
+				//boatHit = g.hitTestCircleRectangle(greenBuoy,sailboat);   // /rectangleCollision
+				boatHit = g.hitTestCircleRectangle(greenBuoy, sailboat);
 				//	boatHit = g.circleRectangleCollision(greenBuoy,sailboat);
-				if (boatHit !== undefined && boatHit !== false){
+				if (boatHit !== undefined && boatHit !== false) {
 					//console.log(g.hit(sailboat,[greenBuoy,redBuoy]));
 					//boatHitsGreen = true;
 					sailboat.alpha = 0.5;
 					console.log(boatHit);
-				}else{
+				} else {
 					sailboat.alpha = 1;
 				}
-				
+
 				//	let collision = g.contain(sailboat, g.stage, true);
 				//	let collision2 = g.contain(boom, g.stage, true);
-				if (sailboat.velocity !== 0){ // steuerbar nur, falls fährt
-						sailboat.rotation += sailboat.rudder;
+				if (sailboat.velocity !== 0) { // steuerbar nur, falls fährt
+					sailboat.rotation += sailboat.rudder;
 				}
-			
+
 				var vectors = getVelocityVectors(sailboat.velocity, sailboat.rotation);
 				sailboat.vx = vectors.vx;
 				sailboat.vy = vectors.vy;
- 
+
 				sailboat.x += sailboat.vx;
 				sailboat.y += sailboat.vy;
-				
-			//	g.hit(sailboat, redBuoy,true,true);
-			//		g.hit(sailboat, greenBuoy,true,true);
+
+				//	g.hit(sailboat, redBuoy,true,true);
+				//		g.hit(sailboat, greenBuoy,true,true);
 				/*	boom.x += boom.vx;
 					boom.y += boom.vy;
 					rudder.x += rudder.vx;

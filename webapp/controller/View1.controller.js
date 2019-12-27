@@ -91,6 +91,7 @@ sap.ui.define([
 			var sailboat;
 			var redBuoy;
 			var greenBuoy;
+			var signalBuoy;
 			//	var boom;
 			//	var rudder;
 			//	var texture;
@@ -128,8 +129,27 @@ sap.ui.define([
 
 				H1R2.position.x = sailboat.position.x;
 				H1R2.position.y = sailboat.position.y + b;
+				
+				// Längenvergleich: Red / orange: zu Green-Buoy:
+				var area1 = areaLine(greenBuoy.position.x,greenBuoy.position.y, G1L1.position.x,G1L1.position.y, G1L2.position.x,G1L2.position.y );
+				var area2 = areaLine(greenBuoy.position.x,greenBuoy.position.y, H1L1.position.x,H1L1.position.y, H1L2.position.x,H1L2.position.y );
+			 if (area1 > 0 && area2 < 0 || area1 < 0 && area2 > 0){
+			 	signalBuoy.fillColor = "red";  // innerhalb
+			 	console.log("red");
+			 }else{
+			 	 signalBuoy.fillColor = "green";
+			 	 	console.log("green");
+			 }
+			
 			}
-
+			// ist Punkt rechts/Links einer Geraden?
+            function areaLine(px,py,x1,y1,x2,y2){
+            	
+            	return (px-x1)*(y1-y2) + (py-y1)*(x2-x1);
+            	// 0 -> auf Linie
+            	// < 0 unter Linie
+            	// > 0 über Linie
+            }
 			function getVelocityVectors(velocity, angle) {
 				var vx = velocity * Math.cos(angle);
 				var vy = velocity * Math.sin(angle);
@@ -199,7 +219,14 @@ sap.ui.define([
 
 				//sailboat.addChild(heck);
 				//sailboat.addChild(bug);
-
+	signalBuoy = g.circle(
+					30,
+					"green",
+					"green",
+					0,
+					50,
+					250
+				);
 				G1L1 = g.circle(
 					10,
 					"red",

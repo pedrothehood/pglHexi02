@@ -219,7 +219,7 @@ sap.ui.define([
 						var bug = g.rectangle(10, 12, "red");
 						bug.anchor.set(0.5);
 						sailboat = g.group();*/
-				showTestPointsOnShip = true;
+				showTestPointsOnShip = false;
 				// create our little bunny friend..
 				//	texture = PIXI.Texture.fromImage('images/boat1.jpg');
 				//		texture.baseTexture.scaleMode = PIXI.SCALE_MODES.NEAREST;

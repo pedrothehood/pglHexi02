@@ -94,6 +94,7 @@ sap.ui.define([
 			var signalBuoy;
 			var showTestPointsOnShip;
 			var explosionMode;
+			var explosionSound;
 			//	var messageX;
 			//	var boom;
 			//	var rudder;
@@ -223,6 +224,7 @@ sap.ui.define([
 				showTestPointsOnShip = false;
 
 				explosionMode = false;
+			//	explosionSound = g.sound("sounds/explosion.mp3");
 				// create our little bunny friend..
 				//	texture = PIXI.Texture.fromImage('images/boat1.jpg');
 				//		texture.baseTexture.scaleMode = PIXI.SCALE_MODES.NEAREST;
@@ -765,20 +767,26 @@ sap.ui.define([
 					//console.log(g.hit(sailboat,[greenBuoy,redBuoy]));
 					//boatHitsGreen = true;
 					if (explosionMode === false) {
-						explosionMode === true;
 						//	g.wait(1000, () => {g.show(1)});
-						g.wait(100, () => {sailboat.show(1)});
-						g.wait(400, () => {sailboat.show(2)});
+						g.wait(500, () => {sailboat.show(1)});
+					/*	g.wait(400, () => {sailboat.show(2)});
+							g.wait(700, () => {sailboat.show(1)});
+						g.wait(1000, () => {sailboat.show(2)});*/
+						explosionMode = true;
 			//				g.wait(100, () => {sailboat.show(1)});
 			//			g.wait(400, () => {sailboat.show(2)});
 					//	sailboat.show(1)
 					} else {
 					//	sailboat.show(2);
-
+                  //   explosionSound.play();
+                  g.wait(500, () => {sailboat.show(2)});
+                  explosionMode = false;
+                  //g.wait(500, () => {sailboat.show(1)});
 					}
 					sailboat.alpha = 0.5;
 					//console.log(boatHit);
 				} else {
+					explosionMode = false;
 					sailboat.show(0); // Standard-Bild
 					sailboat.alpha = 1;
 				}

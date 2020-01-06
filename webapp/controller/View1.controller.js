@@ -93,6 +93,7 @@ sap.ui.define([
 			var greenBuoy;
 			var signalBuoy;
 			var showTestPointsOnShip;
+			var explosionMode;
 			//	var messageX;
 			//	var boom;
 			//	var rudder;
@@ -220,6 +221,8 @@ sap.ui.define([
 						bug.anchor.set(0.5);
 						sailboat = g.group();*/
 				showTestPointsOnShip = false;
+
+				explosionMode = false;
 				// create our little bunny friend..
 				//	texture = PIXI.Texture.fromImage('images/boat1.jpg');
 				//		texture.baseTexture.scaleMode = PIXI.SCALE_MODES.NEAREST;
@@ -231,7 +234,7 @@ sap.ui.define([
 				if (showTestPointsOnShip === true) {
 					sailboat = g.rectangle(100, 37, "grey");
 				} else {
-					sailboat = g.sprite("images/boot3_100.png");
+					sailboat = g.sprite(["images/boot3_100.png", "images/boot3_100_1a.png", "images/boot3_100_1b.png"]);
 				}
 				//	sailboat = g.sprite("images/boot3_100.png");
 				//sailboat = g.rectangle(100, 37, "grey");
@@ -761,9 +764,22 @@ sap.ui.define([
 					//	if (boatHit !== undefined && boatHit !== false) {
 					//console.log(g.hit(sailboat,[greenBuoy,redBuoy]));
 					//boatHitsGreen = true;
+					if (explosionMode === false) {
+						explosionMode === true;
+						//	g.wait(1000, () => {g.show(1)});
+						g.wait(100, () => {sailboat.show(1)});
+						g.wait(400, () => {sailboat.show(2)});
+			//				g.wait(100, () => {sailboat.show(1)});
+			//			g.wait(400, () => {sailboat.show(2)});
+					//	sailboat.show(1)
+					} else {
+					//	sailboat.show(2);
+
+					}
 					sailboat.alpha = 0.5;
 					//console.log(boatHit);
 				} else {
+					sailboat.show(0); // Standard-Bild
 					sailboat.alpha = 1;
 				}
 

@@ -17,7 +17,7 @@ sap.ui.define([
 			//any files, you can leave this out. Hexi lets you load a wide variety
 			//of files: images, texture atlases, bitmap fonts, ordinary font files, and
 			//sounds
-			var thingsToLoad = ["images/cat.png", "fonts/puzzler.otf", "sounds/music.wav"];
+			var thingsToLoad = ["images/cat.png", "fonts/puzzler.otf", "sounds/music.wav","sounds/explosion.wav","sounds/explosion.mp3"];
 
 			//Initialize Hexi with the `hexi` function. It has 5 arguments,
 			//although only the first 3 are required:
@@ -29,7 +29,7 @@ sap.ui.define([
 			//If you skip the last two arguments, Hexi will skip the loading
 			//process and jump straight to the `setup` function.
 			//	var g = hexi(512, 512, setup, thingsToLoad, load);
-			var g = hexi(512, 512, setup);
+			var g = hexi(512, 512, setup,thingsToLoad);
 
 			//Optionally Set the frames per second at which the game logic loop should run.
 			//(Sprites will be rendered independently, with interpolation, at full 60 or 120 fps)
@@ -95,6 +95,7 @@ sap.ui.define([
 			var showTestPointsOnShip;
 			var explosionMode;
 			var explosionSound;
+			var explosionFirst;
 			//	var messageX;
 			//	var boom;
 			//	var rudder;
@@ -224,7 +225,8 @@ sap.ui.define([
 				showTestPointsOnShip = false;
 
 				explosionMode = false;
-			//	explosionSound = g.sound("sounds/explosion.mp3");
+				explosionFirst = false;
+				explosionSound = g.sound("sounds/explosion.mp3");
 				// create our little bunny friend..
 				//	texture = PIXI.Texture.fromImage('images/boat1.jpg');
 				//		texture.baseTexture.scaleMode = PIXI.SCALE_MODES.NEAREST;
@@ -778,7 +780,11 @@ sap.ui.define([
 					//	sailboat.show(1)
 					} else {
 					//	sailboat.show(2);
-                  //   explosionSound.play();
+					if (explosionFirst === false){
+						 explosionSound.play();
+						 explosionFirst = true;
+					}
+                    
                   g.wait(500, () => {sailboat.show(2)});
                   explosionMode = false;
                   //g.wait(500, () => {sailboat.show(1)});
@@ -789,6 +795,7 @@ sap.ui.define([
 					explosionMode = false;
 					sailboat.show(0); // Standard-Bild
 					sailboat.alpha = 1;
+					 explosionFirst = false;
 				}
 
 				//	let collision = g.contain(sailboat, g.stage, true);

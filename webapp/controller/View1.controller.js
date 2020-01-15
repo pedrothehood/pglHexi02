@@ -31,7 +31,7 @@ document.dispatchEvent (evt);
 				"images/waveM_LU.png", "images/waveM_LUR.png", "images/waveM_MM.png", "images/waveM_MO.png", "images/waveM_MU.png",
 				"images/waveM_RM.png", "images/waveM_RML.png", "images/waveM_RO.png", "images/waveM_ROL.png", "images/waveM_RU.png",
 				"images/waveM_RUL.png", "images/waveM_RUM.png", "images/wave1.png", "images/wave2.png", "images/cat.png", "fonts/puzzler.otf",
-				"sounds/music.wav", "sounds/explosion.wav", "sounds/explosion.mp3"
+				"sounds/music.wav", "sounds/explosion.wav", "sounds/explosion.mp3", "images/fisch_1.png","images/fisch_2.png","images/fisch_3.png","images/fisch_4.png"
 			];
 
 			//Initialize Hexi with the `hexi` function. It has 5 arguments,
@@ -112,6 +112,7 @@ document.dispatchEvent (evt);
 			var explosionSound;
 			var explosionFirst;
 			var wave;
+			var fish;
 			//	var messageX;
 			//	var boom;
 			//	var rudder;
@@ -252,6 +253,7 @@ document.dispatchEvent (evt);
 
 				//	sailboat = g.sprite("images/boot3_100.png"); //g.sprite("images/boat1.jpg");
 				initWave();
+				 initFish();
 				if (showTestPointsOnShip === true) {
 					sailboat = g.rectangle(100, 37, "grey");
 				} else {
@@ -443,9 +445,15 @@ document.dispatchEvent (evt);
 
 				//sailboat = 
 				//sailboat = g.rectangle(60, 16, "black");
-
+               
 				initSailboat();
-
+               function initFish(){
+               	    fish = g.sprite(["images/fisch_1.png","images/fisch_2.png","images/fisch_3.png","images/fisch_4.png"]);
+               		fish.setPosition(200, 300);
+               		fish.fps = 1;
+               		fish.playAnimation();
+               	
+               }
 				function initWave() {
 					wave = [];
 					//	wave = g.sprite(["images/waveM_LM.png","images/waveM_LMR.png","images/waveM_LO.png","images/waveM_LOR.png","images/waveM_LU.png","images/waveM_LUR.png","images/waveM_MM.png","images/waveM_MO.png","images/waveM_MU.png","images/waveM_RM.png", "images/waveM_RML.png","images/waveM_RO.png","images/waveM_ROL.png", "images/waveM_RU.png", "images/waveM_RUL.png","images/waveM_RUM.png"]);

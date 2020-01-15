@@ -17,7 +17,12 @@ sap.ui.define([
 			//any files, you can leave this out. Hexi lets you load a wide variety
 			//of files: images, texture atlases, bitmap fonts, ordinary font files, and
 			//sounds
-			var thingsToLoad = ["images/waveM_LM.png","images/waveM_LMR.png","images/waveM_LO.png","images/waveM_LOR.png","images/waveM_LU.png","images/waveM_LUR.png","images/waveM_MM.png","images/waveM_MO.png","images/waveM_MU.png","images/waveM_RM.png", "images/waveM_RML.png","images/waveM_RO.png","images/waveM_ROL.png", "images/waveM_RU.png", "images/waveM_RUL.png","images/waveM_RUM.png","images/wave1.png","images/wave2.png","images/cat.png", "fonts/puzzler.otf", "sounds/music.wav","sounds/explosion.wav","sounds/explosion.mp3"];
+			var thingsToLoad = ["images/waveM_LM.png", "images/waveM_LMR.png", "images/waveM_LO.png", "images/waveM_LOR.png",
+				"images/waveM_LU.png", "images/waveM_LUR.png", "images/waveM_MM.png", "images/waveM_MO.png", "images/waveM_MU.png",
+				"images/waveM_RM.png", "images/waveM_RML.png", "images/waveM_RO.png", "images/waveM_ROL.png", "images/waveM_RU.png",
+				"images/waveM_RUL.png", "images/waveM_RUM.png", "images/wave1.png", "images/wave2.png", "images/cat.png", "fonts/puzzler.otf",
+				"sounds/music.wav", "sounds/explosion.wav", "sounds/explosion.mp3"
+			];
 
 			//Initialize Hexi with the `hexi` function. It has 5 arguments,
 			//although only the first 3 are required:
@@ -29,7 +34,7 @@ sap.ui.define([
 			//If you skip the last two arguments, Hexi will skip the loading
 			//process and jump straight to the `setup` function.
 			//	var g = hexi(512, 512, setup, thingsToLoad, load);
-			var g = hexi(512, 512, setup,thingsToLoad);
+			var g = hexi(512, 512, setup, thingsToLoad);
 
 			//Optionally Set the frames per second at which the game logic loop should run.
 			//(Sprites will be rendered independently, with interpolation, at full 60 or 120 fps)
@@ -236,6 +241,7 @@ sap.ui.define([
 				//	var bug = g.rectangle(10, 12, "red");
 
 				//	sailboat = g.sprite("images/boot3_100.png"); //g.sprite("images/boat1.jpg");
+				initWave();
 				if (showTestPointsOnShip === true) {
 					sailboat = g.rectangle(100, 37, "grey");
 				} else {
@@ -427,15 +433,42 @@ sap.ui.define([
 
 				//sailboat = 
 				//sailboat = g.rectangle(60, 16, "black");
+
 				initSailboat();
-				initWave();
-                function initWave(){
-                	wave = g.sprite(["images/waveM_LM.png","images/waveM_LMR.png","images/waveM_LO.png","images/waveM_LOR.png","images/waveM_LU.png","images/waveM_LUR.png","images/waveM_MM.png","images/waveM_MO.png","images/waveM_MU.png","images/waveM_RM.png", "images/waveM_RML.png","images/waveM_RO.png","images/waveM_ROL.png", "images/waveM_RU.png", "images/waveM_RUL.png","images/waveM_RUM.png"]);
-                	wave.setPosition(200,100);
-                	wave.fps = 1 ;
-                	wave.playAnimation([0,4]);
-                	
-                }
+
+				function initWave() {
+					wave = [];
+					//	wave = g.sprite(["images/waveM_LM.png","images/waveM_LMR.png","images/waveM_LO.png","images/waveM_LOR.png","images/waveM_LU.png","images/waveM_LUR.png","images/waveM_MM.png","images/waveM_MO.png","images/waveM_MU.png","images/waveM_RM.png", "images/waveM_RML.png","images/waveM_RO.png","images/waveM_ROL.png", "images/waveM_RU.png", "images/waveM_RUL.png","images/waveM_RUM.png"]);
+					//	wave.setPosition(200,100);
+					//	wave.fps = 1 ;
+					//	wave.playAnimation([0,4]);
+					createWave(200, 100);
+					createWave(130, 250);
+					createWave(120, 50);
+					createWave(220, 190);
+					createWave(320, 230);
+					createWave(100, 230);
+					createWave(80, 300);
+					createWave(50, 370);
+					createWave(20, 400);
+					createWave(450, 50);
+					createWave(400, 80);
+					createWave(380, 350);
+					createWave(430, 390);
+				}
+
+				function createWave(x, y) {
+					var newWave = g.sprite(["images/waveM_LM.png", "images/waveM_LMR.png", "images/waveM_LO.png", "images/waveM_LOR.png",
+						"images/waveM_LU.png", "images/waveM_LUR.png", "images/waveM_MM.png", "images/waveM_MO.png", "images/waveM_MU.png",
+						"images/waveM_RM.png", "images/waveM_RML.png", "images/waveM_RO.png", "images/waveM_ROL.png", "images/waveM_RU.png",
+						"images/waveM_RUL.png", "images/waveM_RUM.png"
+					]);
+					newWave.setPosition(x, y);
+					newWave.fps = 1;
+					wave.push(newWave);
+					newWave.playAnimation([0, 6]);
+				}
+
 				function initSailboat() {
 					sailboat.setPosition(60, 60);
 					sailboat.vx = 0;
@@ -778,24 +811,28 @@ sap.ui.define([
 					//boatHitsGreen = true;
 					if (explosionMode === false) {
 						//	g.wait(1000, () => {g.show(1)});
-						g.wait(500, () => {sailboat.show(1)});
-					/*	g.wait(400, () => {sailboat.show(2)});
-							g.wait(700, () => {sailboat.show(1)});
-						g.wait(1000, () => {sailboat.show(2)});*/
+						g.wait(500, () => {
+							sailboat.show(1)
+						});
+						/*	g.wait(400, () => {sailboat.show(2)});
+								g.wait(700, () => {sailboat.show(1)});
+							g.wait(1000, () => {sailboat.show(2)});*/
 						explosionMode = true;
-			//				g.wait(100, () => {sailboat.show(1)});
-			//			g.wait(400, () => {sailboat.show(2)});
-					//	sailboat.show(1)
+						//				g.wait(100, () => {sailboat.show(1)});
+						//			g.wait(400, () => {sailboat.show(2)});
+						//	sailboat.show(1)
 					} else {
-					//	sailboat.show(2);
-					if (explosionFirst === false){
-						 explosionSound.play();
-						 explosionFirst = true;
-					}
-                    
-                  g.wait(500, () => {sailboat.show(2)});
-                  explosionMode = false;
-                  //g.wait(500, () => {sailboat.show(1)});
+						//	sailboat.show(2);
+						if (explosionFirst === false) {
+							explosionSound.play();
+							explosionFirst = true;
+						}
+
+						g.wait(500, () => {
+							sailboat.show(2)
+						});
+						explosionMode = false;
+						//g.wait(500, () => {sailboat.show(1)});
 					}
 					sailboat.alpha = 0.5;
 					//console.log(boatHit);
@@ -803,7 +840,7 @@ sap.ui.define([
 					explosionMode = false;
 					sailboat.show(0); // Standard-Bild
 					sailboat.alpha = 1;
-					 explosionFirst = false;
+					explosionFirst = false;
 				}
 
 				//	let collision = g.contain(sailboat, g.stage, true);

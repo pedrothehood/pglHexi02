@@ -17,7 +17,7 @@ sap.ui.define([
 			//any files, you can leave this out. Hexi lets you load a wide variety
 			//of files: images, texture atlases, bitmap fonts, ordinary font files, and
 			//sounds
-			var thingsToLoad = ["images/cat.png", "fonts/puzzler.otf", "sounds/music.wav","sounds/explosion.wav","sounds/explosion.mp3"];
+			var thingsToLoad = ["images/waveM_LM.png","images/waveM_LMR.png","images/waveM_LO.png","images/waveM_LOR.png","images/waveM_LU.png","images/waveM_LUR.png","images/waveM_MM.png","images/waveM_MO.png","images/waveM_MU.png","images/waveM_RM.png", "images/waveM_RML.png","images/waveM_RO.png","images/waveM_ROL.png", "images/waveM_RU.png", "images/waveM_RUL.png","images/waveM_RUM.png","images/wave1.png","images/wave2.png","images/cat.png", "fonts/puzzler.otf", "sounds/music.wav","sounds/explosion.wav","sounds/explosion.mp3"];
 
 			//Initialize Hexi with the `hexi` function. It has 5 arguments,
 			//although only the first 3 are required:
@@ -96,6 +96,7 @@ sap.ui.define([
 			var explosionMode;
 			var explosionSound;
 			var explosionFirst;
+			var wave;
 			//	var messageX;
 			//	var boom;
 			//	var rudder;
@@ -427,7 +428,14 @@ sap.ui.define([
 				//sailboat = 
 				//sailboat = g.rectangle(60, 16, "black");
 				initSailboat();
-
+				initWave();
+                function initWave(){
+                	wave = g.sprite(["images/waveM_LM.png","images/waveM_LMR.png","images/waveM_LO.png","images/waveM_LOR.png","images/waveM_LU.png","images/waveM_LUR.png","images/waveM_MM.png","images/waveM_MO.png","images/waveM_MU.png","images/waveM_RM.png", "images/waveM_RML.png","images/waveM_RO.png","images/waveM_ROL.png", "images/waveM_RU.png", "images/waveM_RUL.png","images/waveM_RUM.png"]);
+                	wave.setPosition(200,100);
+                	wave.fps = 1 ;
+                	wave.playAnimation([0,4]);
+                	
+                }
 				function initSailboat() {
 					sailboat.setPosition(60, 60);
 					sailboat.vx = 0;

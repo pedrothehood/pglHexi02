@@ -4,13 +4,29 @@
 			<pages>
 				<Page id="page" title="{i18n>title}">
 					<Panel id="panel01">
-							<VBox>
+						<VBox>
 							<!--	<Label id="text1" text="x"></Label>
 								<Input id="input1"></Input>
 								<Label id="text2" text="y"></Label>
 								<Input id="input2"></Input>-->
-							</VBox>
-						</Panel>
+						</VBox>
+					</Panel>
+					<Panel id="panel02" >
+					 
+							<HBox width="100%" alignContent="Center">
+								<Button width="150px" id="btnLinks" icon="sap-icon://response" text="links"></Button>
+								<VBox width="150px">
+									<Button width="150px" id="btnVorwaerts" icon="sap-icon://navigation-up-arrow" text="vorwärts"></Button>
+									<Button width="150px" id="btnRueckwaerts" icon="sap-icon://navigation-down-arrow" text="rückwärts"></Button>
+								</VBox>
+								<Button width="150px" id="btnRechts" icon="sap-icon://forward" text="rechts"></Button>
+							</HBox>
+							<!--	<Label id="text1" text="x"></Label>
+								<Input id="input1"></Input>
+								<Label id="text2" text="y"></Label>
+								<Input id="input2"></Input>-->
+					 
+					</Panel>
 				</Page>
 			</pages>
 		</App>

@@ -5,14 +5,24 @@ sap.ui.define([
 
 	return Controller.extend("pglHexi02.pglHexi02.controller.View1", {
 		onInit: function () {
-
+                document.addEventListener ('keydown', function (event){
+                	
+                })
 		},
 		onAfterRendering: function () {
 			this.testpgl05();
 		},
+		btnLinksPressed: function(){
+			
+		},
+		btnVorwaertsPressed: function(){
+		//	alert("hallo");
+		var evt = new KeyboardEvent('keydown', {'keyCode':38, 'which':38});
+document.dispatchEvent (evt);
+		},
 		/* ******************************************************************************************  */
 		testpgl05: function () { /* ****************************************************  */
-
+             var controller = this;
 			//Create an array of files you want to load. If you don't need to load
 			//any files, you can leave this out. Hexi lets you load a wide variety
 			//of files: images, texture atlases, bitmap fonts, ordinary font files, and
@@ -455,6 +465,8 @@ sap.ui.define([
 					createWave(400, 80);
 					createWave(380, 350);
 					createWave(430, 390);
+					createWave(50, 150);
+					createWave(80, 190);
 				}
 
 				function createWave(x, y) {
@@ -466,7 +478,7 @@ sap.ui.define([
 					newWave.setPosition(x, y);
 					newWave.fps = 1;
 					wave.push(newWave);
-					newWave.playAnimation([0, 6]);
+					newWave.playAnimation([5, 10]);
 				}
 
 				function initSailboat() {
@@ -547,6 +559,11 @@ sap.ui.define([
 					}
 
 				};
+				var localController = controller;
+				var btnUpArrow = localController.getView().byId("btnVorwaerts");
+				var btnDownArrow = localController.getView().byId("btnRueckwaerts");
+				var btnLeftArrow = localController.getView().byId("btnLinks");
+				var btnRightArrow = localController.getView().byId("btnRechts");
 				let leftArrow = g.keyboard(37),
 					upArrow = g.keyboard(38),
 					rightArrow = g.keyboard(39),
@@ -573,7 +590,7 @@ sap.ui.define([
 						//player.vx = -5;
 						//player.vy = 0;
 					};
-
+                   btnLeftArrow.attachPress(leftArrow.press);
 					//Left arrow key `release` method
 					leftArrow.release = () => {
 						//	sailboat.rotation = 0;
@@ -604,6 +621,7 @@ sap.ui.define([
 						player.vy = -5;
 						player.vx = 0;
 					};
+					   btnUpArrow.attachPress(upArrow.press);
 					upArrow.release = () => {
 						return;
 						if (!downArrow.isDown && player.vx === 0) {
@@ -625,6 +643,7 @@ sap.ui.define([
 						player.vx = 5;
 						player.vy = 0;
 					};
+					 btnRightArrow.attachPress(rightArrow.press);
 					rightArrow.release = () => {
 						//	sailboat.rotation = 0;
 						return;
@@ -650,6 +669,7 @@ sap.ui.define([
 						player.vy = 5;
 						player.vx = 0;
 					};
+					 btnDownArrow.attachPress(downArrow.press);
 					downArrow.release = () => {
 						return;
 						if (!upArrow.isDown && player.vx === 0) {

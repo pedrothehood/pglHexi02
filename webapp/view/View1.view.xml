@@ -3,8 +3,21 @@
 		<App id="app">
 			<pages>
 				<Page id="page" title="{i18n>title}">
+						<Panel>
+						<HBox>
+									<Button width="150px" id="btnStart" icon="sap-icon://begin" text="Start"></Button>
+									<Button width="150px" id="btnStop" icon="sap-icon://stop" text="Stop"></Button>
+									<Button width="150px" id="btnRestart" icon="sap-icon://restart" text="Reset"></Button>
+								
+							<!--	<Label id="text1" text="x"></Label>
+								<Input id="input1"></Input>
+								<Label id="text2" text="y"></Label>
+								<Input id="input2"></Input>-->
+						</HBox>
+					</Panel>
 					<Panel id="panel01">
 						<VBox>
+							
 							<!--	<Label id="text1" text="x"></Label>
 								<Input id="input1"></Input>
 								<Label id="text2" text="y"></Label>
